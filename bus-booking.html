@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Ticket Booking - Eshwarites Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        main {
+            padding: 2.5rem 0;
+        }
+        
+        .booking-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2d3748;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .routes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .route-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .route-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .route-card.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .route-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .route-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .route-fare {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .route-details {
+            color: #4a5568;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .route-distance {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .book-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 2rem;
+        }
+        
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .book-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .routes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🚌 Bus Ticket Booking</h1>
+            <p class="subtitle">Book your bus tickets from SECE</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="booking-section">
+            <h2 style="margin-bottom: 1.5rem; color: #2d3748;">Passenger Details</h2>
+            <form id="bookingForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="passengerName">Passenger Name *</label>
+                        <input type="text" id="passengerName" required placeholder="Enter full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="passengerPhone">Phone Number *</label>
+                        <input type="tel" id="passengerPhone" required placeholder="Enter 10-digit phone number" pattern="[0-9]{10}">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="travelDate">Travel Date *</label>
+                        <input type="date" id="travelDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="passengers">Number of Passengers *</label>
+                        <select id="passengers" required>
+                            <option value="">Select passengers</option>
+                            <option value="1">1 Passenger</option>
+                            <option value="2">2 Passengers</option>
+                            <option value="3">3 Passengers</option>
+                            <option value="4">4 Passengers</option>
+                            <option value="5">5 Passengers</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="booking-section">
+            <h2 style="margin-bottom: 1.5rem; color: #2d3748;">Select Destination</h2>
+            <div class="routes-grid" id="routesGrid">
+                <!-- Routes will be populated by JavaScript -->
+            </div>
+            
+            <button class="book-btn" id="bookTicketBtn" disabled onclick="bookTicket()">
+                Book Selected Route
+            </button>
+        </div>
+    </main>
+
+    <!-- Quick Home Access -->
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+        <a href="home.html" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #667eea; color: white; border-radius: 50%; text-decoration: none; font-size: 20px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: all 0.3s ease;" onmouseover="this.style.background='#5a6fd8'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.4)'" onmouseout="this.style.background='#667eea'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.3)'" title="Back to Home">
+            🏠
+        </a>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Eshwarites Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Routes data with accurate distances from SECE and fares
+        const routes = [
+            { id: 1, name: "Ukkadam (Coimbatore)", distance: "31 km", fare: 46.50, time: "50 min" },
+            { id: 2, name: "Gandhipuram (Coimbatore)", distance: "28 km", fare: 42.00, time: "45 min" },
+            { id: 3, name: "Singanallur (Coimbatore)", distance: "28 km", fare: 42.00, time: "45 min" },
+            { id: 4, name: "Pollachi", distance: "40 km", fare: 60.00, time: "1h 5min" },
+            { id: 5, name: "Udumalpet", distance: "44 km", fare: 66.00, time: "1h 10min" },
+            { id: 6, name: "Kinathukadavu", distance: "5 km", fare: 7.50, time: "10 min" },
+            { id: 7, name: "Negamam", distance: "38 km", fare: 57.00, time: "1h" },
+            { id: 8, name: "Palladam", distance: "38 km", fare: 57.00, time: "1h" },
+            { id: 9, name: "Tiruppur", distance: "63 km", fare: 94.50, time: "1h 35min" },
+            { id: 10, name: "Mettupalayam", distance: "64 km", fare: 96.00, time: "1h 40min" }
+        ];
+
+        let selectedRoute = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('travelDate').value = today;
+            document.getElementById('travelDate').min = today;
+            
+            renderRoutes();
+            setupFormValidation();
+        });
+
+        // Render route cards
+        function renderRoutes() {
+            const routesGrid = document.getElementById('routesGrid');
+            routesGrid.innerHTML = routes.map(route => `
+                <div class="route-card" onclick="selectRoute(${route.id})">
+                    <div class="route-header">
+                        <div class="route-name">${route.name}</div>
+                        <div class="route-fare">₹${route.fare}</div>
+                    </div>
+                    <div class="route-details">
+                        <div>🕒 ${route.time} journey</div>
+                        <div>📍 From SECE</div>
+                    </div>
+                    <div class="route-distance">${route.distance}</div>
+                </div>
+            `).join('');
+        }
+
+        // Select route
+        function selectRoute(routeId) {
+            // Remove previous selection
+            document.querySelectorAll('.route-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selection to clicked card
+            event.currentTarget.classList.add('selected');
+            
+            selectedRoute = routes.find(route => route.id === routeId);
+            
+            // Enable book button if form is valid
+            validateForm();
+        }
+
+        // Form validation
+        function setupFormValidation() {
+            const form = document.getElementById('bookingForm');
+            const inputs = form.querySelectorAll('input, select');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', validateForm);
+                input.addEventListener('change', validateForm);
+            });
+        }
+
+        function validateForm() {
+            const name = document.getElementById('passengerName').value.trim();
+            const phone = document.getElementById('passengerPhone').value.trim();
+            const date = document.getElementById('travelDate').value;
+            const passengers = document.getElementById('passengers').value;
+            
+            const isFormValid = name && phone && phone.length === 10 && date && passengers && selectedRoute;
+            
+            document.getElementById('bookTicketBtn').disabled = !isFormValid;
+        }
+
+        // Book ticket
+        function bookTicket() {
+            const name = document.getElementById('passengerName').value.trim();
+            const phone = document.getElementById('passengerPhone').value.trim();
+            const date = document.getElementById('travelDate').value;
+            const passengers = parseInt(document.getElementById('passengers').value);
+            
+            const totalFare = (selectedRoute.fare * passengers).toFixed(2);
+            
+            const booking = {
+                id: 'BUS' + Date.now(),
+                passengerName: name,
+                phone: phone,
+                travelDate: date,
+                passengers: passengers,
+                route: selectedRoute,
+                totalFare: totalFare,
+                bookingDate: new Date().toISOString(),
+                status: 'Confirmed'
+            };
+            
+            // Store booking temporarily for payment
+            localStorage.setItem('pendingBooking', JSON.stringify(booking));
+            
+            // Show booking confirmation popup
+            showBookingPopup(booking);
+        }
+        
+        // Show booking confirmation popup
+        function showBookingPopup(booking) {
+            const popup = document.createElement('div');
+            popup.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.5); z-index: 2000; display: flex; 
+                align-items: center; justify-content: center; backdrop-filter: blur(5px);
+            `;
+            
+            popup.innerHTML = `
+                <div style="background: white; border-radius: 15px; padding: 2rem; max-width: 500px; width: 90%; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
+                    <div style="text-align: center; margin-bottom: 1.5rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🎫</div>
+                        <h2 style="color: #2d3748; margin-bottom: 0.5rem;">Booking Summary</h2>
+                        <p style="color: #4a5568;">Please review your booking details</p>
+                    </div>
+                    
+                    <div style="background: #f7fafc; padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem;">
+                        <div style="margin-bottom: 0.8rem;"><strong>Booking ID:</strong> ${booking.id}</div>
+                        <div style="margin-bottom: 0.8rem;"><strong>Passenger:</strong> ${booking.passengerName}</div>
+                        <div style="margin-bottom: 0.8rem;"><strong>Route:</strong> SECE → ${booking.route.name}</div>
+                        <div style="margin-bottom: 0.8rem;"><strong>Date:</strong> ${new Date(booking.travelDate).toLocaleDateString()}</div>
+                        <div style="margin-bottom: 0.8rem;"><strong>Passengers:</strong> ${booking.passengers}</div>
+                        <div style="font-size: 1.2rem; font-weight: bold; color: #667eea;"><strong>Total Fare: ₹${booking.totalFare}</strong></div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <button onclick="cancelBooking()" style="flex: 1; background: #e2e8f0; color: #4a5568; border: none; padding: 0.8rem; border-radius: 8px; cursor: pointer;">Cancel</button>
+                        <button onclick="proceedToPayment()" style="flex: 2; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.8rem; border-radius: 8px; cursor: pointer; font-weight: 500;">Proceed to Payment</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(popup);
+        }
+        
+        function cancelBooking() {
+            localStorage.removeItem('pendingBooking');
+            document.querySelector('[style*="position: fixed"]').remove();
+        }
+        
+        function proceedToPayment() {
+            window.location.href = 'payment.html';
+        }
+    </script>
+</body>
+</html>

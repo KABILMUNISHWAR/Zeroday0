@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafeteria Menu - Eshwarites Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cafeteria.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍽️ Amenity Menu</h1>
+            <p>Available dishes in our amenity center</p>
+        </header>
+
+        <!-- Role Selection -->
+        <div id="roleSection" class="login-section">
+            <div class="login-form">
+                <h2>Welcome to Amenity Center</h2>
+                <div class="form-group">
+                    <label>I am a:</label>
+                    <div class="role-buttons">
+                        <button type="button" class="role-btn" onclick="selectRole('student')">Student</button>
+                        <button type="button" class="role-btn" onclick="selectRole('admin')">Administrator</button>
+                    </div>
+                </div>
+                <div class="login-help">
+                    <p>🎓 <strong>Students:</strong> View menu and place orders</p>
+                    <p>👨‍💼 <strong>Administrators:</strong> Manage menu and orders</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Login Form -->
+        <div id="adminLoginSection" class="login-section" style="display: none;">
+            <div class="login-form">
+                <h2>Admin Login</h2>
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label for="adminUsername">Username:</label>
+                        <input type="text" id="adminUsername" name="adminUsername" 
+                               minlength="3" 
+                               maxlength="20" 
+                               pattern="[A-Za-z0-9_]+" 
+                               placeholder="Enter your username" 
+                               title="Username must be 3-20 characters (letters, numbers, underscore only)" 
+                               required>
+                        <small class="form-help">3-20 characters (letters, numbers, underscore only)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password:</label>
+                        <input type="password" id="adminPassword" name="adminPassword" 
+                               minlength="6" 
+                               maxlength="30" 
+                               placeholder="Enter your password" 
+                               title="Password must be at least 6 characters" 
+                               required>
+                        <small class="form-help">Minimum 6 characters required</small>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit">Login</button>
+                        <button type="button" onclick="goBackToRoleSelection()">Back</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminDashboard" class="dashboard admin-dashboard" style="display: none;">
+            <div class="dashboard-header">
+                <h2>Admin Dashboard</h2>
+                <button id="logoutBtn" class="logout-btn">Logout</button>
+            </div>
+            
+            <div class="admin-content">
+                <div class="post-announcement">
+                    <h3>Add Menu Item</h3>
+                    <form id="addMenuForm">
+                        <div class="form-group">
+                            <label for="itemName">Item Name:</label>
+                            <input type="text" id="itemName" name="itemName" required maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="itemCategory">Category:</label>
+                            <select id="itemCategory" name="itemCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="breakfast">Breakfast</option>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                                <option value="snacks">Snacks</option>
+                                <option value="beverages">Beverages</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemPrice">Price (₹):</label>
+                            <input type="number" id="itemPrice" name="itemPrice" min="1" max="500" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemDescription">Description:</label>
+                            <textarea id="itemDescription" name="itemDescription" rows="2" maxlength="200"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemImage">Food Image:</label>
+                            <input type="file" id="itemImage" name="itemImage" accept="image/*">
+                            <small class="form-help">Upload an appetizing photo of the dish</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemDate">Available Date:</label>
+                            <input type="date" id="itemDate" name="itemDate" required>
+                        </div>
+                        <button type="submit">Add Item</button>
+                    </form>
+                </div>
+
+                <div class="manage-announcements">
+                    <h3>Manage Menu Items</h3>
+                    <div id="adminMenuList" class="announcements-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Dashboard -->
+        <div id="studentDashboard" class="dashboard student-dashboard" style="display: none;">
+            <div class="dashboard-header">
+                <h2>Welcome Student!</h2>
+                <button id="studentLogoutBtn" class="logout-btn">Back</button>
+            </div>
+            
+            <div class="student-content">
+                <div class="filters">
+                    <h3>Filter Menu</h3>
+                    <div class="filter-controls">
+                        <select id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                            <option value="snacks">Snacks</option>
+                            <option value="beverages">Beverages</option>
+                        </select>
+                        <select id="dateFilter">
+                            <option value="">All Dates</option>
+                            <option value="today">Today</option>
+                            <option value="tomorrow">Tomorrow</option>
+                        </select>
+                        <input type="text" id="searchFilter" placeholder="Search items...">
+                    </div>
+                </div>
+
+                <div class="announcements-container">
+                    <h3>Available Dishes</h3>
+                    <div id="studentMenuList" class="announcements-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="orderModalTitle">Place Order</h3>
+                <span class="close" onclick="closeOrderModal()">&times;</span>
+            </div>
+            <div id="orderModalContent">
+                <!-- Order form will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Home Access -->
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+        <a href="home.html" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #667eea; color: white; border-radius: 50%; text-decoration: none; font-size: 20px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: all 0.3s ease;" onmouseover="this.style.background='#5a6fd8'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.4)'" onmouseout="this.style.background='#667eea'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.3)'" title="Back to Home">
+            🏠
+        </a>
+    </div>
+
+    <script src="cafeteria.js"></script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Complaint Registration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="complaints.css">
+    <link rel="stylesheet" href="navigation.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Hostel Complaint Registration</h1>
+            <p>Report and track hostel maintenance issues and complaints</p>
+        </header>
+
+
+
+        <!-- Login Form -->
+        <div id="loginSection" class="login-section">
+            <div class="login-form">
+                <h2>Eshwarites Hostel Portal Login</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="userRole">I am a:</label>
+                        <select id="userRole" name="userRole" required>
+                            <option value="">Select your role</option>
+                            <option value="student">Student</option>
+                            <option value="admin">Hostel Administrator</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" 
+                               minlength="3" 
+                               maxlength="20" 
+                               pattern="[A-Za-z0-9_]+" 
+                               placeholder="Enter your username" 
+                               title="Username must be 3-20 characters (letters, numbers, underscore only)" 
+                               required>
+                        <small class="form-help">3-20 characters (letters, numbers, underscore only)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" 
+                               minlength="6" 
+                               maxlength="30" 
+                               placeholder="Enter your password" 
+                               title="Password must be at least 6 characters" 
+                               required>
+                        <small class="form-help">Minimum 6 characters required</small>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <div class="login-help">
+                    <p>🏠 <strong>Students:</strong> Submit and track your hostel complaints</p>
+                    <p>👨‍💼 <strong>Administrators:</strong> Manage and resolve hostel complaints</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminDashboard" class="dashboard admin-dashboard" style="display: none;">
+            <div class="dashboard-header">
+                <h2>Admin Dashboard - Complaint Management</h2>
+                <button id="logoutBtn" class="logout-btn">Logout</button>
+            </div>
+            
+            <div class="admin-content">
+                <div class="stats-overview">
+                    <h3>Complaint Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card pending">
+                            <h4>Pending</h4>
+                            <span id="pendingCount">0</span>
+                        </div>
+                        <div class="stat-card in-progress">
+                            <h4>In Progress</h4>
+                            <span id="inProgressCount">0</span>
+                        </div>
+                        <div class="stat-card resolved">
+                            <h4>Resolved</h4>
+                            <span id="resolvedCount">0</span>
+                        </div>
+                        <div class="stat-card total">
+                            <h4>Total</h4>
+                            <span id="totalCount">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="manage-complaints">
+                    <h3>Manage Complaints</h3>
+                    <div class="admin-filters">
+                        <select id="adminStatusFilter">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="resolved">Resolved</option>
+                        </select>
+                        <select id="adminCategoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="water">Water Issues</option>
+                            <option value="electricity">Electricity</option>
+                            <option value="cleaning">Cleaning</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="security">Security</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <select id="adminPriorityFilter">
+                            <option value="">All Priorities</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                    <div id="adminComplaintsList" class="complaints-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Dashboard -->
+        <div id="studentDashboard" class="dashboard student-dashboard" style="display: none;">
+            <div class="dashboard-header">
+                <h2>Welcome, <span id="studentName"></span>!</h2>
+                <button id="studentLogoutBtn" class="logout-btn">Logout</button>
+            </div>
+            
+            <div class="student-content">
+                <div class="view-toggle">
+                    <button id="submitComplaintBtn" class="view-btn active">Submit Complaint</button>
+                    <button id="myComplaintsBtn" class="view-btn">My Complaints</button>
+                </div>
+
+                <!-- Submit Complaint Form -->
+                <div id="submitComplaintView" class="view-content">
+                    <div class="submit-complaint">
+                        <h3>Submit New Complaint</h3>
+                        <form id="complaintForm">
+                            <div class="form-group">
+                                <label for="complaintTitle">Complaint Title:</label>
+                                <input type="text" id="complaintTitle" name="complaintTitle" 
+                                       minlength="5" 
+                                       maxlength="100" 
+                                       placeholder="Brief title describing the issue" 
+                                       title="Title must be between 5-100 characters" 
+                                       required>
+                                <small class="form-help">Enter a brief title (5-100 characters)</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="complaintCategory">Category:</label>
+                                <select id="complaintCategory" name="complaintCategory" required>
+                                    <option value="">Select Category</option>
+                                    <option value="water">Water Issues</option>
+                                    <option value="electricity">Electricity</option>
+                                    <option value="cleaning">Cleaning</option>
+                                    <option value="maintenance">Maintenance</option>
+                                    <option value="security">Security</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="roomNumber">Room Number:</label>
+                                <input type="text" id="roomNumber" name="roomNumber" 
+                                       pattern="[A-Za-z0-9\-]{1,10}" 
+                                       maxlength="10" 
+                                       placeholder="e.g., A-101, B2-205, 301" 
+                                       title="Enter valid room number (letters, numbers, hyphens only)" 
+                                       required>
+                                <small class="form-help">Enter your room number (e.g., A-101, B2-205)</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="complaintDescription">Description:</label>
+                                <textarea id="complaintDescription" name="complaintDescription" 
+                                          rows="5" 
+                                          minlength="10" 
+                                          maxlength="500" 
+                                          placeholder="Please provide detailed description of the issue (minimum 10 characters)..." 
+                                          title="Description must be between 10-500 characters" 
+                                          required></textarea>
+                                <small class="form-help">Provide detailed description (10-500 characters)</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="priority">Priority:</label>
+                                <select id="priority" name="priority" required>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                    <option value="urgent">Urgent</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactNumber">Contact Number:</label>
+                                <input type="tel" id="contactNumber" name="contactNumber" 
+                                       pattern="[0-9]{10}" 
+                                       maxlength="10" 
+                                       placeholder="Enter 10-digit mobile number" 
+                                       title="Please enter exactly 10 digits" 
+                                       required>
+                                <small class="form-help">Enter exactly 10 digits (e.g., 9876543210)</small>
+                            </div>
+                            <button type="submit">Submit Complaint</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- My Complaints View -->
+                <div id="myComplaintsView" class="view-content" style="display: none;">
+                    <div class="my-complaints">
+                        <h3>My Complaints</h3>
+                        <div class="student-filters">
+                            <select id="studentStatusFilter">
+                                <option value="">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="resolved">Resolved</option>
+                            </select>
+                            <select id="studentCategoryFilter">
+                                <option value="">All Categories</option>
+                                <option value="water">Water Issues</option>
+                                <option value="electricity">Electricity</option>
+                                <option value="cleaning">Cleaning</option>
+                                <option value="maintenance">Maintenance</option>
+                                <option value="security">Security</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <select id="studentSortBy">
+                                <option value="date-desc">Newest First</option>
+                                <option value="date-asc">Oldest First</option>
+                                <option value="priority">By Priority</option>
+                                <option value="status">By Status</option>
+                            </select>
+                        </div>
+                        <div id="studentComplaintsList" class="complaints-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Complaint Detail Modal -->
+    <div id="complaintModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="complaintDetails"></div>
+        </div>
+    </div>
+
+    <!-- Quick Home Access -->
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+        <a href="home.html" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: #667eea; color: white; border-radius: 50%; text-decoration: none; font-size: 20px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); transition: all 0.3s ease;" onmouseover="this.style.background='#5a6fd8'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.4)'" onmouseout="this.style.background='#667eea'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.3)'" title="Back to Home">
+            🏠
+        </a>
+    </div>
+
+    <script src="complaints.js"></script>
+</body>
+</html>

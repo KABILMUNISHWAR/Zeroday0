@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eshwarites Hub - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        main {
+            padding: 2.5rem 0;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+        
+        .welcome-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .welcome-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .service-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: #667eea;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+            font-weight: 600;
+        }
+        
+        .service-card p {
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            flex-grow: 1;
+        }
+        
+        .service-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+            margin-top: auto;
+        }
+        
+        .service-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #4a5568;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🎓 Eshwarites Hub</h1>
+            <p class="subtitle">Your one-stop destination for campus life</p>
+            <div id="authSection" style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center; align-items: center;">
+                <a href="log.html" id="loginBtn" style="background: rgba(255,255,255,0.2); color: white; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 500; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">🔐 Login</a>
+                <div id="userInfo" style="display: none; color: white; font-weight: 500;">
+                    <span>Welcome, <span id="currentUserName"></span>!</span>
+                    <button id="logoutBtn" style="background: rgba(255,255,255,0.2); color: white; padding: 0.5rem 1rem; border-radius: 8px; border: none; font-weight: 500; cursor: pointer; margin-left: 1rem; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">🚪 Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="welcome-section">
+            <h2>Welcome to Eshwarites Hub</h2>
+            <p>Access all your campus services from one convenient location</p>
+        </div>
+
+        <div class="services-grid">
+            <!-- Campus Announcements Feed -->
+            <div class="service-card fade-in" onclick="redirectTo('index.html')">
+                <div class="service-icon">
+                    📢
+                </div>
+                <h3>Campus Announcements Feed</h3>
+                <p>Stay updated with the latest campus news, events, and important notices from administration and student groups</p>
+                <button class="service-btn">
+                    View Announcements →
+                </button>
+            </div>
+
+            <!-- Lost & Found Section -->
+            <div class="service-card fade-in" onclick="redirectTo('lost-found.html')">
+                <div class="service-icon">
+                    🔍
+                </div>
+                <h3>Lost & Found Section</h3>
+                <p>Report lost items or check found items. Connect with others to retrieve your belongings</p>
+                <button class="service-btn">
+                    Lost & Found →
+                </button>
+            </div>
+
+            <!-- Mini Timetable Scheduler -->
+            <div class="service-card fade-in" onclick="redirectTo('timeschedule.html')">
+                <div class="service-icon">
+                    📅
+                </div>
+                <h3>Mini Timetable Scheduler</h3>
+                <p>Manage your class schedule, set reminders, and never miss an important academic event</p>
+                <button class="service-btn">
+                    View Schedule →
+                </button>
+            </div>
+
+            <!-- Hostel Complaint Registration -->
+            <div class="service-card fade-in" onclick="redirectTo('complaints.html')">
+                <div class="service-icon">
+                    🏠
+                </div>
+                <h3>Hostel Complaint Registration</h3>
+                <p>Submit and track complaints regarding hostel facilities, maintenance, and services</p>
+                <button class="service-btn">
+                    Register Complaint →
+                </button>
+            </div>
+
+            <!-- Skill Exchange -->
+            <div class="service-card fade-in" onclick="redirectTo('skill-exchange.html')">
+                <div class="service-icon">
+                    🤝
+                </div>
+                <h3>Skill Exchange</h3>
+                <p>Share your skills and learn from others. Connect with peers for tutoring, projects, and knowledge exchange</p>
+                <button class="service-btn">
+                    Exchange Skills →
+                </button>
+            </div>
+
+            <!-- Bus Ticket Booking -->
+            <div class="service-card fade-in" onclick="redirectTo('bus-booking.html')">
+                <div class="service-icon">
+                    🎫
+                </div>
+                <h3>Bus Ticket Booking</h3>
+                <p>Book bus tickets from SECE to 10 destinations with UPI payment, digital tickets, and PDF printing options</p>
+                <button class="service-btn">
+                    Book Tickets →
+                </button>
+                <div style="margin-top: 1rem; font-size: 0.85rem; color: #4a5568; line-height: 1.4;">
+                    <strong>📝 Booking Flow:</strong><br>
+                    • Bus Booking Page - Professional popup confirmation<br>
+                    • Payment Page - UPI payment with QR code simulation<br>
+                    • Ticket Page - Digital ticket with all booking details<br><br>
+                    
+                    <strong>✨ Features:</strong><br>
+                    📱 <strong>Popup Confirmation:</strong> Professional booking summary with cancel/proceed options<br>
+                    💳 <strong>Payment Page:</strong> UPI payment (eshwarites@upi), QR code, booking summary<br>
+                    🎫 <strong>Digital Ticket:</strong> Route visualization, all details, QR verification, print/download<br><br>
+                    
+                    <strong>🔄 Data Flow:</strong><br>
+                    Book ticket → Popup confirmation → Payment page → Ticket generated → Print/download options<br><br>
+                    
+                    <strong>📍 Routes Available:</strong> Ukkadam, Gandhipuram, Singanallur, Pollachi, Udumalpet, Kinathukadavu, Negamam, Palladam, Tiruppur, Mettupalayam
+                </div>
+            </div>
+        </div>
+
+       
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Eshwarites Hub. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <a href="#help">Help</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Redirect function for service cards
+        function redirectTo(page) {
+            window.location.href = page;
+        }
+
+        // Load and display statistics from localStorage
+        function loadStats() {
+            // Load announcements count
+            const announcements = JSON.parse(localStorage.getItem('announcements') || '[]');
+            document.getElementById('announcements-count').textContent = announcements.length || 2;
+            
+            // Load lost & found items count
+            const lostFoundItems = JSON.parse(localStorage.getItem('lostFoundItems') || '[]');
+            document.getElementById('lost-found-count').textContent = lostFoundItems.length || 5;
+            
+            // Load complaints count
+            const complaints = JSON.parse(localStorage.getItem('hostelComplaints') || '[]');
+            document.getElementById('complaints-count').textContent = complaints.length || 0;
+            
+            // Load today's events count
+            const scheduleEvents = JSON.parse(localStorage.getItem('scheduleEvents') || '[]');
+            const today = new Date().toISOString().split('T')[0];
+            const todayEvents = scheduleEvents.filter(event => event.date === today);
+            document.getElementById('events-count').textContent = todayEvents.length || 2;
+        }
+
+        // Animate numbers counting up
+        function animateNumbers() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            statNumbers.forEach(element => {
+                const target = parseInt(element.textContent);
+                let current = 0;
+                const increment = target / 20;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        element.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        element.textContent = Math.floor(current);
+                    }
+                }, 30);
+            });
+        }
+
+        // Check login status and update UI
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const currentUser = localStorage.getItem('currentUser');
+            const loginBtn = document.getElementById('loginBtn');
+            const userInfo = document.getElementById('userInfo');
+            const currentUserName = document.getElementById('currentUserName');
+            
+            if (isLoggedIn === 'true' && currentUser) {
+                loginBtn.style.display = 'none';
+                userInfo.style.display = 'flex';
+                currentUserName.textContent = currentUser;
+            } else {
+                loginBtn.style.display = 'block';
+                userInfo.style.display = 'none';
+            }
+        }
+        
+        // Handle logout
+        function handleLogout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('userRole');
+            localStorage.removeItem('rememberMe');
+            localStorage.removeItem('rememberedUsername');
+            localStorage.removeItem('rememberedRole');
+            window.location.href = 'log.html';
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check login status
+            checkLoginStatus();
+            
+            // Add logout event listener
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+            
+            // Load statistics
+            loadStats();
+            
+            // Animate numbers after a short delay
+            setTimeout(animateNumbers, 300);
+            
+            // Initialize sample data if none exists
+            if (!localStorage.getItem('eshwaritesHubInitialized')) {
+                // Sample announcements
+                const sampleAnnouncements = [
+                    {
+                        id: 'ann1',
+                        title: 'Welcome to Eshwarites Hub!',
+                        content: 'Your central hub for campus life is now live.',
+                        priority: 'high',
+                        timestamp: new Date().toISOString()
+                    },
+                    {
+                        id: 'ann2',
+                        title: 'Library Hours Extended',
+                        content: 'Library now open until 11 PM on weekdays.',
+                        priority: 'medium',
+                        timestamp: new Date().toISOString()
+                    }
+                ];
+                
+                // Sample lost & found items
+                const sampleLostFound = [
+                    {
+                        id: 'lf1',
+                        item: 'Black Wallet',
+                        description: 'Contains student ID and some cash',
+                        location: 'Cafeteria',
+                        date: new Date().toISOString(),
+                        status: 'found',
+                        contact: 'security@campus.edu'
+                    },
+                    {
+                        id: 'lf2',
+                        item: 'Laptop Charger',
+                        description: 'Dell 65W charger with black cable',
+                        location: 'Computer Lab B',
+                        date: new Date().toISOString(),
+                        status: 'found',
+                        contact: 'lostfound@campus.edu'
+                    },
+                    {
+                        id: 'lf3',
+                        item: 'Water Bottle',
+                        description: 'Blue Hydro Flask with stickers',
+                        location: 'Gym',
+                        date: new Date().toISOString(),
+                        status: 'found',
+                        contact: 'gym@campus.edu'
+                    },
+                    {
+                        id: 'lf4',
+                        item: 'Textbook',
+                        description: 'Calculus 3rd Edition by Smith',
+                        location: 'Library',
+                        date: new Date().toISOString(),
+                        status: 'found',
+                        contact: 'library@campus.edu'
+                    },
+                    {
+                        id: 'lf5',
+                        item: 'AirPods Case',
+                        description: 'White AirPods Pro case',
+                        location: 'Bus Stop',
+                        date: new Date().toISOString(),
+                        status: 'found',
+                        contact: 'transport@campus.edu'
+                    }
+                ];
+                
+                // Sample hostel complaints
+                const sampleComplaints = [
+                    {
+                        id: 'comp1',
+                        title: 'Water Leak in Room 203',
+                        description: 'There is a persistent water leak from the ceiling in room 203',
+                        status: 'pending',
+                        timestamp: new Date().toISOString()
+                    }
+                ];
+                
+                // Sample schedule events
+                const today = new Date().toISOString().split('T')[0];
+                const sampleEvents = [
+                    {
+                        id: 'event1',
+                        title: 'Mathematics 101',
+                        startTime: '09:00',
+                        endTime: '10:30',
+                        location: 'Room A-101',
+                        description: 'Calculus fundamentals',
+                        date: today
+                    },
+                    {
+                        id: 'event2',
+                        title: 'Computer Science Lab',
+                        startTime: '14:00',
+                        endTime: '16:00',
+                        location: 'Computer Lab C',
+                        description: 'Data structures practical',
+                        date: today
+                    }
+                ];
+                
+                localStorage.setItem('announcements', JSON.stringify(sampleAnnouncements));
+                localStorage.setItem('lostFoundItems', JSON.stringify(sampleLostFound));
+                localStorage.setItem('hostelComplaints', JSON.stringify(sampleComplaints));
+                localStorage.setItem('scheduleEvents', JSON.stringify(sampleEvents));
+                localStorage.setItem('eshwaritesHubInitialized', 'true');
+            }
+        });
+    </script>
+</body>
+</html>
